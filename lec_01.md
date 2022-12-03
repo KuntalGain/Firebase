@@ -47,10 +47,27 @@ TextFormField(
 ```
 
 ```
-final signUp() async{
+Future SignUp() async {
     final isValid = formKey.currentState!.validate();
+    if (!isValid) return;
 
-    if(!isValid) return;
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Center(child: CircularProgressIndicator()),
+    );
+
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+
+    navigatorKey.currentState!.popUntil((route) => route.isFirst);
+  }
 }
 ```
 
