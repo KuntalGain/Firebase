@@ -67,6 +67,7 @@ Future SignUp() async {
 
     final snackBar = SnackBar(content: e.message.toString , backgroundColor: Colors.red);
 
+
     ScaffoldMessenger.of(context).showSnackBar(snackbar);
 
     }
@@ -74,3 +75,35 @@ Future SignUp() async {
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }
+```
+
+
+> # Firebase Auth - Forgot password
+
+```
+Future resetPassword () async {
+
+  showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Center(child: CircularProgressIndicator()),
+    );
+
+    try {
+    await FirebaseAuth.instance
+        .sendPasswordResetEmail(email: emailController.trim());
+
+    final snackBar = SnackBar(content:'Email has been send' , backgroundColor: Colors.red);
+
+    ScaffoldMessage.of(context).showSnackBar(snackbar);
+    } on FirebaseAuthException catch(e) {
+      print(e);
+
+      final snackBar = SnackBar(content: e.message.toString , backgroundColor: Colors.red);
+
+
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    Navigator.of(context).pop();
+    }
+}
+```
