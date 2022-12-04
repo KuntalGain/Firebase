@@ -64,29 +64,13 @@ Future SignUp() async {
       );
     } on FirebaseAuthException catch (e) {
       print(e);
+
+    final snackBar = SnackBar(content: e.message.toString , backgroundColor: Colors.red);
+
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+
     }
 
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }
-```
-
->utils.dart
-
-```
-import 'package:flutter/material.dart';
-
-final messengerKey = GlobalKey<ScaffoldMessengerState>();
-
-class Utils {
-    static showSnackBar(String? text) {
-        if(text == null) return;
-
-        final snackBar = SnackBar(content: Text(text),backgroundColor : Colors.red);
-
-        messengerKey.currentState!
-        ..removeCurrentSnackBar()
-        ..showSnackBar(snackbar);
-    }
-}
-```
